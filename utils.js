@@ -5,6 +5,7 @@ $("#speed").keyup(function(event) {
         //i.e. speed = 0.9 means going 90% the speed of light
         var rawSpeed = parseFloat(document.getElementById('speed').value);
         speed = 10 * rawSpeed;
-        radius = SHIP_RADIUS * Math.sqrt(1.0 - (rawSpeed*rawSpeed));
+        lorentzCoefficient = Math.sqrt(1.0 - (rawSpeed*rawSpeed));
+        radius = SHIP_RADIUS * lorentzCoefficient;
     }
 });
