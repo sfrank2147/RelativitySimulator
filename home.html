@@ -10,10 +10,15 @@
     <div>
     <canvas id="demoCanvas" width="500" height="500"></canvas>
     </div>
-    <div>
+<!--     <div>
     Speed: <input id="speed" type="text"/>
-    <div>
-    <script src="utils.js"></script>
+    <div> -->
+    <div id="stats">
+        <h3 class="stat" id="energyStat">Energy: 1.0</p>
+        <h3 class="stat" id="speedStat">Speed: 0.0</p>
+    </div>
+    <button id="energy" onclick="addEnergy();">Add Energy!</button>
+    <button id="energy" onclick="removeEnergy();">Remove Energy!</button>
     <script>setInterval(function(){drawCircles(speed);}, 10);</script>
 </body>
 </html>

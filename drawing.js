@@ -4,10 +4,36 @@ var GRID_HEIGHT = 500;
 var SHIP_RADIUS = 30.0;
 
 //this variable will change as the user toggles the settings
+energy = 1.0
 speed = 0.0;
 radius = 30.0;
 lorentzCoefficient = 1.0;
 objTime = 0.0;
+
+function addEnergy() {
+    energy += 0.02;
+    updateSpeed();
+}
+function removeEnergy() {
+    if(energy > 1.0) {
+        energy = Math.max(energy - 0.02, 1.0);
+    }
+    updateSpeed();
+}
+
+function updateSpeed() {
+    var rawSpeed = Math.sqrt(1 - (1/(energy * energy)));
+    //speed is relative to c
+    //i.e. speed = 0.9 means going 90% the speed of light
+    // var rawSpeed = parseFloat(document.getElementById('speed').value);
+    speed = 10.0 * rawSpeed;
+    lorentzCoefficient = Math.sqrt(1.0 - (rawSpeed*rawSpeed));
+    radius = SHIP_RADIUS * lorentzCoefficient;
+
+    //update the stats
+    $("#energyStat").text("Energy: " + energy);
+    $("#speedStat").text("Speed: " + rawSpeed);
+}
 
 function drawCircles(offsetGrowth) {
     var timeAngle = (-0.5 * Math.PI + objTime) % (2 * Math.PI);
