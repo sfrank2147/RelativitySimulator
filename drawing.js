@@ -10,6 +10,8 @@ radius = 30.0;
 lorentzCoefficient = 1.0;
 objTime = 0.0;
 
+flameWaver = 0;
+
 function addEnergy() {
     energy += 0.02;
     updateSpeed();
@@ -31,7 +33,7 @@ function updateSpeed() {
     radius = SHIP_RADIUS * lorentzCoefficient;
 
     //update the stats
-    $("#energyStat").text("Energy: " + energy + " times the mass of the shuttle.");
+    $("#energyStat").text("Energy: " + energy.toFixed(2) + " times the mass of the shuttle.");
     $("#speedStat").text("Speed: " + (rawSpeed * 299792458).toFixed(0) + " m/s (" + rawSpeed.toFixed(4) + " times the speed of light)");
 }
 
@@ -59,14 +61,17 @@ function drawCircles(offsetGrowth) {
     //draw fire for the space ship
     demoContext.moveTo(250, 250);
     demoContext.beginPath();
-    demoContext.strokeStyle = 'orange';
-    demoContext.fillStyle = 'orange';
-    demoContext.lineTo(240, 230 + energy * 60.0);
-    demoContext.lineTo(260, 230 + energy * 60.0);
+    demoContext.strokeStyle = flameWaver ? 'orange' : 'red';
+    demoContext.fillStyle = flameWaver ? 'orange' : 'red';
+    demoContext.lineTo(240, 230 + energy * 60.0 + flameWaver*2.0);
+    demoContext.lineTo(260, 230 + energy * 60.0 + flameWaver*2.0);
     demoContext.lineTo(250, 250);
     demoContext.fill();
     demoContext.strokeStyle = 'orange';
     demoContext.stroke();
+
+    //alternate whether the flame is wavering
+    flameWaver = 1 - flameWaver;
 
     //draw spaceship
     var shuttleImg = new Image();
