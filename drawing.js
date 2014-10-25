@@ -26,13 +26,13 @@ function updateSpeed() {
     //speed is relative to c
     //i.e. speed = 0.9 means going 90% the speed of light
     // var rawSpeed = parseFloat(document.getElementById('speed').value);
-    speed = 10.0 * rawSpeed;
+    speed = 5.0 * rawSpeed;
     lorentzCoefficient = Math.sqrt(1.0 - (rawSpeed*rawSpeed));
     radius = SHIP_RADIUS * lorentzCoefficient;
 
     //update the stats
-    $("#energyStat").text("Energy: " + energy);
-    $("#speedStat").text("Speed: " + rawSpeed);
+    $("#energyStat").text("Energy: " + energy + " times the mass of the shuttle.");
+    $("#speedStat").text("Speed: " + (rawSpeed * 299792458).toFixed(0) + " m/s (" + rawSpeed.toFixed(4) + " times the speed of light)");
 }
 
 function drawCircles(offsetGrowth) {
@@ -40,31 +40,42 @@ function drawCircles(offsetGrowth) {
     var demoCanvas = document.getElementById('demoCanvas');
     var demoContext = demoCanvas.getContext('2d');
     demoContext.clearRect(0, 0, 500, 500);
+
+    //draw the background
+    var starsImg = new Image();
+    starsImg.src = 'assets/stars.jpg';
+    demoContext.drawImage(starsImg, 0, 0, 500, 500);
+
     var movingRadius = radius;
     for(var x = 50; x < GRID_WIDTH; x += 100) {
         if(Math.abs(x - GRID_WIDTH/2) <= 50) {
             continue;
         }
         for(var y = -150; y <= GRID_HEIGHT + 150; y += 100) {
-            drawCircle(x, (y + offset) % 500, movingRadius, 'black', true);
+            drawCircle(x, (y + offset) % 500, movingRadius, 'grey', true);
         }
     }
 
-    //draw fire for the circle
+    //draw fire for the space ship
     demoContext.moveTo(250, 250);
     demoContext.beginPath();
     demoContext.strokeStyle = 'orange';
     demoContext.fillStyle = 'orange';
-    demoContext.lineTo(240, 280 + speed * 10.0);
-    demoContext.lineTo(260, 280 + speed * 10.0);
+    demoContext.lineTo(240, 230 + energy * 60.0);
+    demoContext.lineTo(260, 230 + energy * 60.0);
     demoContext.lineTo(250, 250);
     demoContext.fill();
     demoContext.strokeStyle = 'orange';
     demoContext.stroke();
 
-    //draw circle
-    drawCircle(250, 250, SHIP_RADIUS, 'blue', false);
-    offset += Math.floor(offsetGrowth);
+    //draw spaceship
+    var shuttleImg = new Image();
+    shuttleImg.src = 'assets/shuttle.png';
+    demoContext.drawImage(shuttleImg, 225, 200, 50, 100);
+    // drawCircle(250, 250, SHIP_RADIUS, 'blue', false);
+
+    //increment the circle offset and the time
+    offset += offsetGrowth;
     objTime += 0.02 * lorentzCoefficient;
 }
 
@@ -97,7 +108,5 @@ function drawCircle(centerX, centerY, radius, color, drawTime) {
         demoContext.fillStyle = 'red';
         demoContext.fill();
         demoContext.lineWidth = 1;
-        demoContext.strokeStyle = color;
-        demoContext.stroke();
     }
 }
