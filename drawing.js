@@ -12,6 +12,14 @@ objTime = 0.0;
 
 flameWaver = 0;
 
+stars = new Set();
+for(var x = 0; x < 100; x++) {
+    stars.add({
+        'x': Math.random() * 500,
+        'y': Math.random() * 500}
+    )
+}
+
 function addEnergy() {
     energy += 0.02;
     updateSpeed();
@@ -44,9 +52,16 @@ function drawCircles(offsetGrowth) {
     demoContext.clearRect(0, 0, 500, 500);
 
     //draw the background
-    var starsImg = new Image();
-    starsImg.src = 'assets/stars.jpg';
-    demoContext.drawImage(starsImg, 0, 0, 500, 500);
+    // var starsImg = new Image();
+    // starsImg.src = 'assets/stars.jpg';
+    // demoContext.drawImage(starsImg, 0, 0, 500, 500);
+    demoContext.fillStyle = 'black';
+    demoContext.fillRect(0, 0, 500, 500);
+
+    demoContext.fillStyle = 'white';
+    stars.forEach(function(star) {
+        demoContext.fillRect(star['x'], (star['y'] + offset) % 500, 1, 1);
+    })
 
     var movingRadius = radius;
     for(var x = 50; x < GRID_WIDTH; x += 100) {
