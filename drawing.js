@@ -3,27 +3,30 @@ var GRID_WIDTH = 500;
 var GRID_HEIGHT = 500;
 var SHIP_RADIUS = 30.0;
 
-//this variable will change as the user toggles the settings
-energy = 1.0
-speed = 0.0;
-radius = 30.0;
+energy = 1.0; //energy in the space shuttle
+speed = 0.0; //the speed the space shuttle is traveling at
+radius = 30.0; //the radius of the clocks
 lorentzCoefficient = 1.0;
-objTime = 0.0;
+objTime = 0.0; //used to track animation progress
 
-flameWaver = 0;
+flameWaver = 0; //0 or 1, depending on if flame is red or orange
 
+//initialize a bunch of random stars in the night sky
 stars = new Set();
 for(var x = 0; x < 100; x++) {
     stars.add({
         'x': Math.random() * 500,
-        'y': Math.random() * 500}
-    )
+        'y': Math.random() * 500
+    })
 }
 
+//add energy to the shuttle
 function addEnergy() {
     energy += 0.02;
     updateSpeed();
 }
+
+//subtract energy from the shuttle
 function removeEnergy() {
     if(energy > 1.0) {
         energy = Math.max(energy - 0.02, 1.0);
@@ -31,30 +34,28 @@ function removeEnergy() {
     updateSpeed();
 }
 
+//recalculate the shuttle's speed, along with the clock sizes
+//and the lorentz coefficient
 function updateSpeed() {
-    var rawSpeed = Math.sqrt(1 - (1/(energy * energy)));
     //speed is relative to c
     //i.e. speed = 0.9 means going 90% the speed of light
-    // var rawSpeed = parseFloat(document.getElementById('speed').value);
-    speed = 5.0 * rawSpeed;
-    lorentzCoefficient = Math.sqrt(1.0 - (rawSpeed*rawSpeed));
+    speed = Math.sqrt(1 - (1/(energy * energy)));
+    lorentzCoefficient = Math.sqrt(1.0 - (speed*speed));
     radius = SHIP_RADIUS * lorentzCoefficient;
 
     //update the stats
     $("#energyStat").text("Energy: " + energy.toFixed(2) + " times the mass of the shuttle.");
-    $("#speedStat").text("Speed: " + (rawSpeed * 670616629.0).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " miles per hour (" + (rawSpeed * 100.0).toFixed(2) + "% of the speed of light)");
+    $("#speedStat").text("Speed: " + (speed * 670616629.0).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " miles per hour (" + (speed * 100.0).toFixed(2) + "% of the speed of light)");
 }
 
-function drawCircles(offsetGrowth) {
+function drawDemo(offsetGrowth) {
+    //draws the clocks, as well as the spaceship and its flame
     var timeAngle = (-0.5 * Math.PI + objTime) % (2 * Math.PI);
     var demoCanvas = document.getElementById('demoCanvas');
     var demoContext = demoCanvas.getContext('2d');
     demoContext.clearRect(0, 0, 500, 500);
 
-    //draw the background
-    // var starsImg = new Image();
-    // starsImg.src = 'assets/stars.jpg';
-    // demoContext.drawImage(starsImg, 0, 0, 500, 500);
+    //draw the background, including the stars
     demoContext.fillStyle = 'black';
     demoContext.fillRect(0, 0, 500, 500);
 
@@ -69,7 +70,7 @@ function drawCircles(offsetGrowth) {
             continue;
         }
         for(var y = -150; y <= GRID_HEIGHT + 150; y += 100) {
-            drawCircle(x, (y + offset) % 500, movingRadius, 'grey', true);
+            drawClock(x, (y + offset) % 500, movingRadius, 'grey', true);
         }
     }
 
@@ -85,21 +86,25 @@ function drawCircles(offsetGrowth) {
     demoContext.strokeStyle = 'orange';
     demoContext.stroke();
 
-    //alternate whether the flame is wavering
+    //alternate whether the flame is red or orange
     flameWaver = 1 - flameWaver;
 
     //draw spaceship
     var shuttleImg = new Image();
     shuttleImg.src = 'assets/shuttle.png';
     demoContext.drawImage(shuttleImg, 225, 200, 50, 100);
-    // drawCircle(250, 250, SHIP_RADIUS, 'blue', false);
 
     //increment the circle offset and the time
-    offset += offsetGrowth;
+    offset += 5.0 * offsetGrowth;
     objTime += 0.02 * lorentzCoefficient;
 }
 
-function drawCircle(centerX, centerY, radius, color, drawTime) {
+function drawClock(centerX, centerY, radius, color, drawTime) {
+    //draws a single clock
+    //the center of the clock is (centerX, centerY)
+    //the radius of the clock is radius
+    //``color'' is the background color of the clock
+    //drawTime is used to determine the angle of the clock that is filled in
     var demoCanvas = document.getElementById('demoCanvas');
     var demoContext = demoCanvas.getContext('2d');
     demoContext.beginPath();
