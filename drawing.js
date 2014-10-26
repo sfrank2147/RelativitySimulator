@@ -12,12 +12,12 @@ objTime = 0.0; //used to track animation progress
 flameWaver = 0; //0 or 1, depending on if flame is red or orange
 
 //initialize a bunch of random stars in the night sky
-stars = new Set();
+stars = [];
 for(var x = 0; x < 100; x++) {
-    stars.add({
+    stars.push({
         'x': Math.random() * 500,
         'y': Math.random() * 500
-    })
+    });
 }
 
 //add energy to the shuttle
@@ -44,7 +44,7 @@ function updateSpeed() {
     radius = SHIP_RADIUS * lorentzCoefficient;
 
     //update the stats
-    $("#energyStat").text("Energy: " + energy.toFixed(2) + " times the mass of the shuttle.");
+    $("#energyStat").text("Energy: " + energy.toFixed(2) + " times the mass of the shuttle at rest.");
     $("#speedStat").text("Speed: " + (speed * 670616629.0).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " miles per hour (" + (speed * 100.0).toFixed(2) + "% of the speed of light)");
 }
 
@@ -60,9 +60,10 @@ function drawDemo(offsetGrowth) {
     demoContext.fillRect(0, 0, 500, 500);
 
     demoContext.fillStyle = 'white';
-    stars.forEach(function(star) {
+    for (var i in stars) {
+        var star = stars[i];
         demoContext.fillRect(star['x'], (star['y'] + offset) % 500, 1, 1);
-    })
+    };
 
     var movingRadius = radius;
     for(var x = 50; x < GRID_WIDTH; x += 100) {
