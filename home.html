@@ -5,27 +5,39 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
+    <div id="demo">
     <script src="jquery-1.11.1.min.js"></script>
     <script src="drawing.js"></script>
+    <div id=title>
+    <h1>A Special Relativity Simulation</h1>
+    </div>
     <div>
     <canvas id="demoCanvas" width="500" height="500"></canvas>
     </div>
-<!--     <div>
-    Speed: <input id="speed" type="text"/>
-    <div> -->
     <div id="stats">
         <h3 class="stat" id="energyStat">Energy: 1.0 times the mass of the shuttle.</p>
-        <h3 class="stat" id="speedStat">Speed: 0 m/s (0.0000 times the speed of light)</p>
+        <h3 class="stat" id="speedStat">Speed: 0 miles per hour (0.00% of the speed of light)</p>
     </div>
-    <button id="energy" onclick="addEnergy();">Add Energy!</button>
-    <button id="energy" onclick="removeEnergy();">Remove Energy!</button>
+    <div id="buttons">
+        <button onclick="addEnergy();" class="energyButton" id="addButton">Add Energy!</button>
+        <button onclick="removeEnergy();" class="energyButton" id="removeButton">Remove Energy!</button>
+    </div>
     <script>setInterval(function(){drawCircles(speed);}, 10);</script>
+    </div>
+
+    <div id="explanations">
+    <h3 class="headline">What's going on here?</h3>
+    <p class="explanation">As the spaceship goes faster, everyone in the spaceship sees the clocks flying by.  When the spaceship moves really fast, crazy stuff starts happening.  First, objects start <a href=https://en.wikipedia.org/wiki/Length_contraction>shrinking</a>: you can see that as the clocks fly by faster, they get smaller and smaller.  Second, time starts <a href="https://en.wikipedia.org/wiki/Time_dilation">moving more slowly</a>; as the spaceship goes faster and faster, the clocks start taking longer and longer to tick.</p>
+    <h3 class="headline">Why can't the spaceship go past the speed of light?</h3>
+    <p>Albert Einstein was the first one to discover that <a href="https://en.wikipedia.org/wiki/Mass%E2%80%93energy_equivalence">mass is actually a type of energy</a>.  As you burn more fuel, it adds energy to the spaceship, which makes it go faster.  But, it also adds mass to the spaceship, which makes it harder for the spaceship to speed up.  You can never add enough energy to the spaceship to make it go the speed of light.</p>
+    <h3 class="headline">So can anything go the speed of light?</h3>
+    <p>
+    Yes! <a href="https://en.wikipedia.org/wiki/Photon">Particles of light</a> can go at the speed of light.  These particles have no mass, and time actually stands still for them!
+    </p>
+    </div>
 </body>
 </html>
 
 <!--
-nasa photo: http://spaceflight.nasa.gov/gallery/images/shuttle/sts-120/html/sts120-s-028.html
-
-
-hubble photo: http://hubblesite.org/newscenter/archive/releases/2012/37/image/a/warn/
+Spaceship photo: http://spaceflight.nasa.gov/gallery/images/shuttle/sts-120/html/sts120-s-028.html
 -->

@@ -42,7 +42,7 @@ function updateSpeed() {
 
     //update the stats
     $("#energyStat").text("Energy: " + energy.toFixed(2) + " times the mass of the shuttle.");
-    $("#speedStat").text("Speed: " + (rawSpeed * 299792458).toFixed(0) + " m/s (" + rawSpeed.toFixed(4) + " times the speed of light)");
+    $("#speedStat").text("Speed: " + (rawSpeed * 670616629.0).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " miles per hour (" + (rawSpeed * 100.0).toFixed(2) + "% of the speed of light)");
 }
 
 function drawCircles(offsetGrowth) {
@@ -78,8 +78,8 @@ function drawCircles(offsetGrowth) {
     demoContext.beginPath();
     demoContext.strokeStyle = flameWaver ? 'orange' : 'red';
     demoContext.fillStyle = flameWaver ? 'orange' : 'red';
-    demoContext.lineTo(240, 230 + energy * 60.0 + flameWaver*2.0);
-    demoContext.lineTo(260, 230 + energy * 60.0 + flameWaver*2.0);
+    demoContext.lineTo(240, 230 + energy * 60.0);
+    demoContext.lineTo(260, 230 + energy * 60.0);
     demoContext.lineTo(250, 250);
     demoContext.fill();
     demoContext.strokeStyle = 'orange';

@@ -1,7 +1,58 @@
-#demoCanvas {
-    border: 1px solid black;
+html {
+    width: 800px;
 }
 
-h3.stat {
+body {
+    width: 700px;
+    font-family: Sans-Serif;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+#demo {
+    border: 1px solid black;
+    padding: 20px;
+}
+
+#title {
+    text-align: center;
+}
+
+#demoCanvas {
+    display: block;
+    border: 1px solid black;
+    width: 500;
+    height: 500;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat {
+    text-align: center;
+}
+
+#buttons {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+button.energyButton {
+    width: 200px;
+    height: 50px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#addButton {
+    background-color: green;
+}
+
+#removeButton {
+    background-color: red;
+}
+
+.headline {
+    text-align: center;
 }
